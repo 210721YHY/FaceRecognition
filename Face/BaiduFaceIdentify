@@ -2,8 +2,7 @@ import requests
 import base64
 
 # 设置百度AI应用的API Key和Secret Key
-API_KEY = '3a1y3PSvjrWS7Yf0flWJEb6y'
-SECRET_KEY = 'M6JUn8aANsotG0xEE7TuTnWcH7maPxbO'
+
 
 # 将图片文件转换为Base64编码格式
 def image_to_base64(image_path):
