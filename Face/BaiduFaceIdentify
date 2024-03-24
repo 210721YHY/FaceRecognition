@@ -1,0 +1,41 @@
+import requests
+import base64
+
+# 设置百度AI应用的API Key和Secret Key
+API_KEY = '3a1y3PSvjrWS7Yf0flWJEb6y'
+SECRET_KEY = 'M6JUn8aANsotG0xEE7TuTnWcH7maPxbO'
+
+# 将图片文件转换为Base64编码格式
+def image_to_base64(image_path):
+    with open(image_path, 'rb') as f:
+        image_data = f.read()
+        base64_data = base64.b64encode(image_data)
+        return base64_data.decode('utf-8')
+
+# 发送HTTP请求，调用百度AI的人脸检测API
+def detect_face(image_path):
+    url = 'https://aip.baidubce.com/rest/2.0/face/v3/detect'
+    headers = {'Content-Type': 'application/json'}
+    params = {'image': image_to_base64(image_path), 'face_field': 'age,gender,beauty'}
+    auth = (API_KEY, SECRET_KEY)
+    response = requests.post(url, headers=headers, params=params, auth=auth)
+    return response.json()
+
+# 发送HTTP请求，调用百度AI的人脸识别API
+def identify_face(image_path, group_id):
+    url = 'https://aip.baidubce.com/rest/2.0/face/v3/search'
+    headers = {'Content-Type': 'application/json'}
+    params = {'image': image_to_base64(image_path), 'group_id_list': group_id}
+    auth = (API_KEY, SECRET_KEY)
+    response = requests.post(url, headers=headers, params=params, auth=auth)
+    return response.json()
+
+# 测试代码
+if __name__ == '__main__':
+    # 检测人脸
+    result = detect_face('test.jpg')
+    print(result)
+
+    # 识别人脸
+    result = identify_face('test.jpg', 'test_group')
+    print(result)
